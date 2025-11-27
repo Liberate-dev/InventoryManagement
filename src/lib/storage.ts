@@ -5,18 +5,9 @@ export interface BahanBaku {
   satuan: string;
   stokSaatIni: number;
   hargaSatuan: number;
+  biayaPemesanan: number;
+  biayaPenyimpanan: number;
   createdAt: string;
-}
-
-export interface BiayaPenyimpanan {
-  id: string;
-  bahanBakuId: string;
-  namaBahanBaku: string;
-  biayaPerUnit: number; // Biaya penyimpanan per unit per tahun
-  periode: string;
-  keterangan: string;
-  createdAt: string;
-  updatedAt?: string;
 }
 
 export interface TransaksiPenerimaan {
@@ -29,7 +20,6 @@ export interface TransaksiPenerimaan {
   supplier: string;
   leadTimeDays: number; // Waktu tunggu dari pemesanan sampai diterima (hari)
   tanggalPesan?: string; // Tanggal pemesanan
-  biayaPemesanan: number; // Biaya pemesanan untuk transaksi ini
   keterangan: string;
 }
 
@@ -48,7 +38,6 @@ const STORAGE_KEYS = {
   BAHAN_BAKU: 'bahan-baku-mahameru',
   PENERIMAAN: 'transaksi-penerimaan-mahameru',
   PENGELUARAN: 'transaksi-pengeluaran-mahameru',
-  BIAYA_PENYIMPANAN: 'biaya-penyimpanan-mahameru',
 };
 
 // Initialize with sample data
@@ -62,6 +51,8 @@ const initializeData = () => {
         satuan: 'Meter',
         stokSaatIni: 0,
         hargaSatuan: 35000,
+        biayaPemesanan: 150000,
+        biayaPenyimpanan: 2500,
         createdAt: new Date().toISOString(),
       },
       {
@@ -71,6 +62,8 @@ const initializeData = () => {
         satuan: 'Meter',
         stokSaatIni: 0,
         hargaSatuan: 28000,
+        biayaPemesanan: 120000,
+        biayaPenyimpanan: 2000,
         createdAt: new Date().toISOString(),
       },
       {
@@ -80,6 +73,8 @@ const initializeData = () => {
         satuan: 'Cone',
         stokSaatIni: 0,
         hargaSatuan: 15000,
+        biayaPemesanan: 80000,
+        biayaPenyimpanan: 1000,
         createdAt: new Date().toISOString(),
       },
       {
@@ -89,6 +84,8 @@ const initializeData = () => {
         satuan: 'Cone',
         stokSaatIni: 0,
         hargaSatuan: 12000,
+        biayaPemesanan: 70000,
+        biayaPenyimpanan: 800,
         createdAt: new Date().toISOString(),
       },
       {
@@ -98,6 +95,8 @@ const initializeData = () => {
         satuan: 'Meter',
         stokSaatIni: 0,
         hargaSatuan: 25000,
+        biayaPemesanan: 100000,
+        biayaPenyimpanan: 1500,
         createdAt: new Date().toISOString(),
       },
       {
@@ -107,6 +106,8 @@ const initializeData = () => {
         satuan: 'Kg',
         stokSaatIni: 0,
         hargaSatuan: 75000,
+        biayaPemesanan: 80000,
+        biayaPenyimpanan: 3000,
         createdAt: new Date().toISOString(),
       },
       {
@@ -116,6 +117,8 @@ const initializeData = () => {
         satuan: 'Kg',
         stokSaatIni: 0,
         hargaSatuan: 75000,
+        biayaPemesanan: 80000,
+        biayaPenyimpanan: 3000,
         createdAt: new Date().toISOString(),
       },
       {
@@ -125,6 +128,8 @@ const initializeData = () => {
         satuan: 'Kg',
         stokSaatIni: 0,
         hargaSatuan: 95000,
+        biayaPemesanan: 90000,
+        biayaPenyimpanan: 3500,
         createdAt: new Date().toISOString(),
       },
       {
@@ -134,6 +139,8 @@ const initializeData = () => {
         satuan: 'Pcs',
         stokSaatIni: 0,
         hargaSatuan: 3500,
+        biayaPemesanan: 60000,
+        biayaPenyimpanan: 200,
         createdAt: new Date().toISOString(),
       },
       {
@@ -143,6 +150,8 @@ const initializeData = () => {
         satuan: 'Pcs',
         stokSaatIni: 0,
         hargaSatuan: 4500,
+        biayaPemesanan: 60000,
+        biayaPenyimpanan: 250,
         createdAt: new Date().toISOString(),
       },
     ];
@@ -178,14 +187,5 @@ export const storage = {
 
   savePengeluaran: (data: TransaksiPengeluaran[]) => {
     localStorage.setItem(STORAGE_KEYS.PENGELUARAN, JSON.stringify(data));
-  },
-
-  getBiayaPenyimpanan: (): BiayaPenyimpanan[] => {
-    const data = localStorage.getItem(STORAGE_KEYS.BIAYA_PENYIMPANAN);
-    return data ? JSON.parse(data) : [];
-  },
-
-  saveBiayaPenyimpanan: (data: BiayaPenyimpanan[]) => {
-    localStorage.setItem(STORAGE_KEYS.BIAYA_PENYIMPANAN, JSON.stringify(data));
   },
 };

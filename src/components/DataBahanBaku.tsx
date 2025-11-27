@@ -32,6 +32,8 @@ export default function DataBahanBaku({ currentUser }: DataBahanBakuProps) {
     nama: '',
     satuan: '',
     hargaSatuan: 0,
+    biayaPemesanan: 0,
+    biayaPenyimpanan: 0,
   });
 
   useEffect(() => {
@@ -88,6 +90,8 @@ export default function DataBahanBaku({ currentUser }: DataBahanBakuProps) {
       nama: item.nama,
       satuan: item.satuan,
       hargaSatuan: item.hargaSatuan,
+      biayaPemesanan: item.biayaPemesanan,
+      biayaPenyimpanan: item.biayaPenyimpanan,
     });
     setIsDialogOpen(true);
   };
@@ -100,6 +104,8 @@ export default function DataBahanBaku({ currentUser }: DataBahanBakuProps) {
       nama: '',
       satuan: '',
       hargaSatuan: 0,
+      biayaPemesanan: 0,
+      biayaPenyimpanan: 0,
     });
   };
 
@@ -238,6 +244,26 @@ export default function DataBahanBaku({ currentUser }: DataBahanBakuProps) {
                   type="number"
                   value={formData.hargaSatuan}
                   onChange={(e) => setFormData({ ...formData, hargaSatuan: Number(e.target.value) })}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="biayaPemesanan">Biaya Pemesanan (Rp)</Label>
+                <Input
+                  id="biayaPemesanan"
+                  type="number"
+                  value={formData.biayaPemesanan}
+                  onChange={(e) => setFormData({ ...formData, biayaPemesanan: Number(e.target.value) })}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="biayaPenyimpanan">Biaya Penyimpanan (Rp/unit/tahun)</Label>
+                <Input
+                  id="biayaPenyimpanan"
+                  type="number"
+                  value={formData.biayaPenyimpanan}
+                  onChange={(e) => setFormData({ ...formData, biayaPenyimpanan: Number(e.target.value) })}
                   required
                 />
               </div>

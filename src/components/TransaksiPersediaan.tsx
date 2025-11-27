@@ -37,7 +37,6 @@ export default function TransaksiPersediaan({ currentUser }: TransaksiPersediaan
     supplier: '',
     leadTimeDays: 0,
     tanggalPesan: '',
-    biayaPemesanan: 0,
     keterangan: '',
   });
 
@@ -140,7 +139,6 @@ export default function TransaksiPersediaan({ currentUser }: TransaksiPersediaan
       supplier: '',
       leadTimeDays: 0,
       tanggalPesan: '',
-      biayaPemesanan: 0,
       keterangan: '',
     });
   };
@@ -195,7 +193,6 @@ export default function TransaksiPersediaan({ currentUser }: TransaksiPersediaan
                       <th className="text-left p-3">Nama Barang</th>
                       <th className="text-left p-3">Jumlah</th>
                       <th className="text-left p-3">Supplier</th>
-                      <th className="text-left p-3">Biaya Pemesanan</th>
                       <th className="text-left p-3">Keterangan</th>
                     </tr>
                   </thead>
@@ -207,7 +204,6 @@ export default function TransaksiPersediaan({ currentUser }: TransaksiPersediaan
                         <td className="p-3">{item.namaBarang}</td>
                         <td className="p-3">{item.jumlah}</td>
                         <td className="p-3">{item.supplier}</td>
-                        <td className="p-3">Rp {item.biayaPemesanan.toLocaleString('id-ID')}</td>
                         <td className="p-3">{item.keterangan}</td>
                       </tr>
                     ))}
@@ -350,19 +346,6 @@ export default function TransaksiPersediaan({ currentUser }: TransaksiPersediaan
                   placeholder="Contoh: PT Primissima, Toko Kain Jaya, CV Benang Mas"
                   required
                 />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="biaya-pemesanan">Biaya Pemesanan (Rp)</Label>
-                <Input
-                  id="biaya-pemesanan"
-                  type="number"
-                  value={penerimaanForm.biayaPemesanan}
-                  onChange={(e) => setPenerimaanForm({ ...penerimaanForm, biayaPemesanan: Number(e.target.value) })}
-                  min="0"
-                  placeholder="Contoh: 150000"
-                  required
-                />
-                <p className="text-gray-500">Biaya yang dikeluarkan untuk pemesanan ini (ongkir, admin, dll)</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="keterangan-terima">Keterangan</Label>

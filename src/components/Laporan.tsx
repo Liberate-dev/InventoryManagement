@@ -117,8 +117,7 @@ export default function Laporan() {
                   <tbody>
                     {bahanBaku.map(item => {
                       const rop = calculateROP(item.id, penerimaan, pengeluaran);
-                      const biayaPenyimpanan = storage.getBiayaPenyimpanan();
-                      const eoq = calculateEOQ(item, pengeluaran, penerimaan, biayaPenyimpanan);
+                      const eoq = calculateEOQ(item, pengeluaran);
                       const status = getStokStatus(item.stokSaatIni, rop, eoq);
                       return (
                         <tr key={item.id} className="border-b hover:bg-gray-50">

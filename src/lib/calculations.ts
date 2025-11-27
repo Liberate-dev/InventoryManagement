@@ -1,4 +1,4 @@
-import { BahanBaku, TransaksiPenerimaan, TransaksiPengeluaran, BiayaPenyimpanan } from './storage';
+import { BahanBaku, TransaksiPenerimaan, TransaksiPengeluaran } from './storage';
 
 /**
  * Menghitung permintaan harian rata-rata dari transaksi pengeluaran
@@ -59,40 +59,23 @@ export function calculateROP(
 /**
  * Menghitung EOQ (Economic Order Quantity)
  * Formula: √((2 × D × S) / H)
- * D = Demand per tahun (dari transaksi keluar)
- * S = Biaya pemesanan (dari transaksi masuk terbaru)
- * H = Biaya penyimpanan per unit per tahun (dari modul biaya penyimpanan)
+ * D = Demand per tahun
+ * S = Biaya pemesanan
+ * H = Biaya penyimpanan per unit per tahun
  */
 export function calculateEOQ(
   bahan: BahanBaku,
-  pengeluaran: TransaksiPengeluaran[],
-  penerimaan: TransaksiPenerimaan[],
-  biayaPenyimpanan: BiayaPenyimpanan[]
+  pengeluaran: TransaksiPengeluaran[]
 ): number {
   const avgDailyDemand = calculateAverageDailyDemand(bahan.id, pengeluaran);
   
-  // Demand tahunan
-  const annualDemand = avgDailyDemand * 365;
-  
-  if (annualDemand === 0) return 0;
+  // Jika tidak ada demand, gunakan estimasi dari stok awal
+  const annualDemand = avgDailyDemand > 0 
+    ? avgDailyDemand * 365 
+    : bahan.stokAwal * 12; // Fallback: asumsi stok awal adalah kebutuhan bulanan
 
-  // Biaya pemesanan: ambil dari transaksi penerimaan terakhir
-  const lastPenerimaan = penerimaan
-    .filter(p => p.bahanBakuId === bahan.id)
-    .sort((a, b) => new Date(b.tanggal).getTime() - new Date(a.tanggal).getTime())[0];
-  
-  if (!lastPenerimaan) return 0;
-  
-  const orderingCost = lastPenerimaan.biayaPemesanan;
-
-  // Biaya penyimpanan: ambil dari modul biaya penyimpanan terbaru
-  const latestBiayaPenyimpanan = biayaPenyimpanan
-    .filter(bp => bp.bahanBakuId === bahan.id)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
-  
-  if (!latestBiayaPenyimpanan) return 0;
-  
-  const holdingCost = latestBiayaPenyimpanan.biayaPerUnit;
+  const orderingCost = bahan.biayaPemesanan;
+  const holdingCost = bahan.biayaPenyimpanan;
 
   if (holdingCost === 0) return 0;
 
